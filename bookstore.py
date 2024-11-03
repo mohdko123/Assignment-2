@@ -1,3 +1,5 @@
+
+# importing required classes
 from loyaltyprogram import LoyaltyProgram
 from customer import Customer
 from order import Order
@@ -10,6 +12,7 @@ class BookStore:
         self.books = []
         self.quantity = []
         self.orders = []
+        # making the loyalty program object as part of this class
         self.loyalty_program = LoyaltyProgram()
         self.vat = 0.08
 
@@ -17,10 +20,17 @@ class BookStore:
         return "Store {} Address {}\nOrders : {}\nBooks : {}".format(self.get_name(),self.get_location(),len(self.orders),len(self.books))
 
     def add_book(self,book,quantity):
+        '''
+        adding the book into the books list along with their quantity
+        '''
         self.books.append(book)
         self.quantity.append(quantity)
 
     def remove_book(self,book):
+        '''
+        This method will take the book and removes it from the store.
+        This also handles the quantity of the book into the store
+        '''
         if book in self.books:
             book_idx = self.books.index(book)
             quantity = self.quantity[book_idx]
@@ -33,10 +43,17 @@ class BookStore:
             print("book not found")
 
     def register_customer(self,customer_id, name, address, contact,loyalty_member):
+        '''
+        This method takes all the necessary information for a customer and registers a
+        customer in the system
+        '''
         customer = Customer(customer_id, name, address, contact,loyalty_member)
         self.customers.append(customer)
 
     def remove_customer(self,customer_id):
+        '''
+        This method takes in the id of the customer and removes it from the system
+        '''
         for i in self.customers:
             if i.get_customer_id() == customer_id:
                 self.customers.remove(i)
@@ -45,6 +62,9 @@ class BookStore:
         print("customer not found")
 
     def assign_cart_to_customer(self,cart,customer_id):
+        '''
+        Cart is assigned to the customer in this method
+        '''
         for i in self.customers:
             if i.get_customer_id() == customer_id:
                 i.assign_cart(cart)
@@ -53,7 +73,11 @@ class BookStore:
         print("customer not found")
 
     def place_order(self,customer_id):
+        '''
+        This method places the order for the customer, created the order object using the order class
+        then returns the invoice of the order.
 
+        '''
         order_items = {}
 
         for i in self.customers:
@@ -81,6 +105,11 @@ class BookStore:
         print("customer not found")
 
     def generate_invoice(self,order,customer):
+        '''
+        This method creates the invoice of the order with all the necessary
+        information of the customer, books, discounts and the total amount.
+
+        '''
         original_total = order.get_total_price()
         if customer.get_loyalty_member():
             loyalty_discount = original_total * self.loyalty_program.get_loyalty_discount()
@@ -123,9 +152,7 @@ class BookStore:
 
         return invoice
 
-
-
-
+    # getter and setter methods
     def get_name(self):
         return self.__name
 
