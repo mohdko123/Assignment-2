@@ -7,6 +7,10 @@ class Book:
         self.__genre = genre
         self.__price = price
 
+    def __str__(self):
+        return "{} {} {}".format(self.get_title(),self.get_author(),self.get_price())
+
+    # getter and setter methods
     def get_title(self):
         return self.__title
 
